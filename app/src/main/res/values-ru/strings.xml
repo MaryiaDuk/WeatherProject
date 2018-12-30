@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="hint">Введите город</string>
+    <string name="action_settings">Настройки</string>
+    <string name="language">Язык</string>
+    <string name="language_eng">English</string>
+    <string name="language_rus">Русский</string>
+    <string name="units">Units</string>
+    <string name="metric">Metric</string>
+    <string name="imperial">Imperial</string>
+    <string name="pressure">Давление:</string>
+    <string name="humidity">Влажность:</string>
+    <string name="wind">Ветер:</string>
+    <string name="action_history">История</string>
+    <string name="action_about">О программе</string>
+    <string name="err_msg">Ошибка получения данных…</string>
+    <string name="saveBtn">Сохранить</string>
+    <string name="toolbarPlace">Расположение панели поиска</string>
+
+</resources>

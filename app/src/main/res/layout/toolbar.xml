@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:background="#b0292c31"
+        android:minHeight="30sp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/enterCity"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/hint"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/white"
+                tools:ignore="Autofill" />
+
+            <ImageButton
+                android:id="@+id/addCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="10dp"
+                android:layout_weight="1"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:src="@drawable/baseline_search_white_24"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/locationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="10dp"
+                android:layout_weight="1"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:src="@drawable/baseline_location_searching_white_24"
+                tools:ignore="ContentDescription" />
+
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                app:srcCompat="@drawable/baseline_settings_white_24" />
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</LinearLayout>
