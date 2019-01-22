@@ -17,5 +17,8 @@
     <string name="err_msg">Ошибка получения данных…</string>
     <string name="saveBtn">Сохранить</string>
     <string name="toolbarPlace">Расположение панели поиска</string>
-
+    <string-array name="language">
+        <item>Английский</item>
+        <item>Русский</item>
+    </string-array>
 </resources>

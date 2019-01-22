@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Настройки запроса">
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/language"
+            android:entryValues="@array/langNum"
+            android:key="lang"
+            android:summary="Нажмите для выбора языка"
+            android:title="Выберите язык" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/tempr"
+            android:entryValues="@array/TempNum"
+            android:key="temperature"
+            android:title="Выберите температурную шкалу" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Настройки отображения">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="toolbarPlace"
+            android:title="Панель поиска снизу" />
+    </PreferenceCategory>
+</PreferenceScreen>

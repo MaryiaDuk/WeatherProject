@@ -6,15 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,8 +37,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
     private EnterCityCirilic enter;
     private SimpleDateFormat dateFormat;
     private ConstraintLayout constraintLayout, progressLayout;
-
+    private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
 
-//Инициализация
+    //Инициализация
     @SuppressLint("SimpleDateFormat")
     private void init() {
         imageView = findViewById(R.id.imageView);
@@ -99,10 +95,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadSettings(); //чтение файла настроек
+        sp = PreferenceManager.getDefaultSharedPreferences(App.context);
+        //чтение файла настроек
         //Layout в зависимости от положения Toolbar
-        if (place.equals("down")) setContentView(R.layout.activity_main);
-        else if (place.equals("up")) setContentView(R.layout.activity_main2);
+        boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
+        lang=sp.getString("lang", "eng");
+        units=sp.getString("temperature", "metric");
+        if (toolbarPlace) setContentView(R.layout.activity_main2);
+        else setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
         //Разрешение на доступ к геолокации
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         init();
         date.setText(dateFormat.format(Calendar.getInstance().getTime()));
         setSupportActionBar(toolbar);
-        if (name==null) getWeatherByCoord(city);
+        if (name == null) getWeatherByCoord(city);
         addCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -160,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadSettings();
         name = enterCiry.getText().toString().trim();
     }
 
@@ -253,26 +255,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        loadSettings();
-    }
-
     private void save() {
         sPref = getSharedPreferences("CityPref", MODE_PRIVATE);
         SharedPreferences.Editor editor = sPref.edit();
         String cityS = city.getText().toString();
         editor.putString(SAVED_TEXT, cityS);
         editor.apply();
-    }
-
-    private void loadSettings() {
-        SharedPreferences prefSettings = getSharedPreferences("SettingsPref", MODE_PRIVATE);
-        units = prefSettings.getString("units", "metric");
-        lang = prefSettings.getString("language", "");
-        place = prefSettings.getString("place", "up");
-
     }
 
     private void clear() {
@@ -312,5 +300,12 @@ public class MainActivity extends AppCompatActivity {
     public void startSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        save();
+        finish();
     }
 }

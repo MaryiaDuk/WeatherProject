@@ -16,4 +16,26 @@
     <string name="err_msg">Network error…</string>
     <string name="saveBtn">Save</string>
     <string name="toolbarPlace">Расположение панели поиска</string>
+    <string-array name="language">
+        <item>English</item>
+        <item>Russian</item>
+    </string-array>
+    <string-array name="langNum">
+        <item>eng</item>
+        <item>ru</item>
+    </string-array>
+    <string-array name="tempr">
+        <item>Цельсий</item>
+        <item>Фаренгейт</item>
+    </string-array>
+    <string-array name="TempNum">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+    <string name="fitstrun_text">Похоже это первый запуск приложения!\n
+        Сейчас Вы будете переправлены\n
+        на страницу настроек.\n
+        Спасибо за установку приложения!
+    </string>
 </resources>
