@@ -10,6 +10,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.gmail.mashaduk1996.weather.api.RetrofitClient;
 import com.gmail.mashaduk1996.weather.api.WeatherAPI;
+import com.gmail.mashaduk1996.weather.fragments.MainFragment;
 import com.gmail.mashaduk1996.weather.geolocation.Geolocation;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.ui.Backgrounds;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout, progressLayout, errorLayout;
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
+    private FragmentManager fragmentManager;
 
     //Инициализация
     @SuppressLint("SimpleDateFormat")
@@ -212,11 +216,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void getWeatherByName() {
         final String key = WeatherAPI.KEY;
-
-//        if (enterCity.getText().length() == 0) {
-//            name = loadCity();
-//        } else name = enterCity.getText().toString().trim();
-//        clear();
         if (enterCity.getText().length() != 0) {
             name = enterCity.getText().toString();
         }
@@ -239,8 +238,12 @@ public class MainActivity extends AppCompatActivity {
                         progressLayout.setVisibility(View.GONE);
                     loadData(weatherDay);
                     if (constraintLayout.getVisibility() == View.GONE) {
-                        constraintLayout.setVisibility(View.VISIBLE);
-                    }
+                        constraintLayout.setVisibility(View.VISIBLE);}
+                        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag("mainFragment");
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.constraint_layout, mainFragment);
+                        transaction.commit();
+
                 }
 
                 @Override
@@ -261,32 +264,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void save() {
-        sPref = getSharedPreferences("CityPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sPref.edit();
-        String cityS = city.getText().toString();
-        editor.putString(SAVED_TEXT, cityS);
-        editor.apply();
-    }
-
-    private void clear() {
-        sPref = getSharedPreferences("CityPref", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sPref.edit();
-        editor.putString(SAVED_TEXT, null);
-        editor.apply();
-    }
-
-    private String loadCity() {
-        sPref = getSharedPreferences("CityPref", MODE_PRIVATE);
-        return sPref.getString(SAVED_TEXT, "");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        save();
     }
 
     @SuppressLint("SetTextI18n")
@@ -313,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        save();
         finish();
     }
 }
