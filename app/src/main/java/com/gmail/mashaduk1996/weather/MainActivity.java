@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
         lang=sp.getString("lang", "eng");
         units=sp.getString("temperature", "metric");
-        if (toolbarPlace) setContentView(R.layout.activity_main2);
-        else setContentView(R.layout.activity_main);
+        if (toolbarPlace) setContentView(R.layout.activity_main);
+        else setContentView(R.layout.activity_main2);
 //        setContentView(R.layout.activity_main);
         //Разрешение на доступ к геолокации
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);

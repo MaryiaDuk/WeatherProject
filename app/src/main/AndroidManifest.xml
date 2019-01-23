@@ -36,7 +36,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/SettingTheme">
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivity"
+            android:theme="@style/SettingTheme"
+            android:screenOrientation="portrait"/>
         <activity android:name=".FirstRunActivity" />
     </application>
 
