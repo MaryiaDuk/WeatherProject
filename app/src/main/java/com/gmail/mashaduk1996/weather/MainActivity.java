@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private WeatherAPI.ApiInterface api;
     private Backgrounds backgrounds;
-    private EditText enterCiry;
+    private EditText enterCity;
     private String name = null;
     private ImageButton addCity, locbutton, settingsButton;
     private IconsConverter icons;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private String units;
     private EnterCityCirilic enter;
     private SimpleDateFormat dateFormat;
-    private ConstraintLayout constraintLayout, progressLayout;
+    private ConstraintLayout constraintLayout, progressLayout, errorLayout;
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
 
@@ -78,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
         wind = findViewById(R.id.wind);
         backgrounds = new Backgrounds();
         icons = new IconsConverter();
-        enterCiry = findViewById(R.id.enterCity);
+        enterCity = findViewById(R.id.enterCity);
         locbutton = findViewById(R.id.locationButton);
         addCity = findViewById(R.id.addCity);
-        enterCiry.setCursorVisible(false);
+        enterCity.setCursorVisible(false);
         toolbar = findViewById(R.id.toolbar);
         linearLayout = findViewById(R.id.root_layout);
         enter = new EnterCityCirilic();
@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout = findViewById(R.id.constraint_layout);
         progressLayout = findViewById(R.id.progressLayout);
         settingsButton = findViewById(R.id.settingsButton);
+        errorLayout = findViewById(R.id.layout_error);
+
     }
 
 
@@ -99,11 +101,10 @@ public class MainActivity extends AppCompatActivity {
         //чтение файла настроек
         //Layout в зависимости от положения Toolbar
         boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
-        lang=sp.getString("lang", "eng");
-        units=sp.getString("temperature", "metric");
+        lang = sp.getString("lang", "eng");
+        units = sp.getString("temperature", "metric");
         if (toolbarPlace) setContentView(R.layout.activity_main);
         else setContentView(R.layout.activity_main2);
-//        setContentView(R.layout.activity_main);
         //Разрешение на доступ к геолокации
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
@@ -114,9 +115,11 @@ public class MainActivity extends AppCompatActivity {
         }
         //инициализация
         init();
+        name = sp.getString("defaultCity", "");
+        //   name = loadCity();
         date.setText(dateFormat.format(Calendar.getInstance().getTime()));
         setSupportActionBar(toolbar);
-        if (name == null) getWeatherByCoord(city);
+        getWeatherByName();
         addCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
                 getWeatherByCoord(city);
             }
         });
-        getWeatherByName();
-        enterCiry.setOnClickListener(new View.OnClickListener() {
+
+        enterCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enterCiry.setCursorVisible(true);
+                enterCity.setCursorVisible(true);
             }
         });
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -156,14 +159,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        name = enterCiry.getText().toString().trim();
+        name = enterCity.getText().toString().trim();
     }
 
     public void getWeatherByCoord(View v) {
@@ -193,7 +191,11 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(Throwable e) {
-                    temp.setText("-");
+                    //     temp.setText("-");
+                    if (progressLayout.getVisibility() == View.VISIBLE) {
+                        progressLayout.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
+                    }
                     Toast errorToast = Toast.makeText(getApplicationContext(), "Ошибка получения данных", Toast.LENGTH_SHORT);
                     errorToast.show();
                 }
@@ -211,10 +213,13 @@ public class MainActivity extends AppCompatActivity {
     public void getWeatherByName() {
         final String key = WeatherAPI.KEY;
 
-        if (enterCiry.getText().length() == 0) {
-            name = loadCity();
-        } else name = enterCiry.getText().toString().trim();
-        clear();
+//        if (enterCity.getText().length() == 0) {
+//            name = loadCity();
+//        } else name = enterCity.getText().toString().trim();
+//        clear();
+        if (enterCity.getText().length() != 0) {
+            name = enterCity.getText().toString();
+        }
         name = enter.enterCirilicCty(name);
         if (name.isEmpty()) {
             Toast enterCity = Toast.makeText(getApplicationContext(), "Введите город", Toast.LENGTH_SHORT);
@@ -240,7 +245,10 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(Throwable e) {
-                    temp.setText("-");
+                    if (progressLayout.getVisibility() == View.VISIBLE) {
+                        progressLayout.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
+                    }
                     Toast errorToast = Toast.makeText(getApplicationContext(), "Ошибка получения данных", Toast.LENGTH_SHORT);
                     errorToast.show();
                     constraintLayout.setVisibility(ConstraintLayout.GONE);

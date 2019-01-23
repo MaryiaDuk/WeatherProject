@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="Настройки запроса">
         <ListPreference
@@ -16,9 +16,15 @@
             android:entryValues="@array/TempNum"
             android:key="temperature"
             android:title="Выберите температурную шкалу" />
+        <EditTextPreference
+            android:defaultValue="Москва"
+            android:key="defaultCity"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Город по умолчанию" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Настройки отображения">
 
+    <PreferenceCategory android:title="Настройки отображения">
         <SwitchPreference
             android:defaultValue="false"
             android:key="toolbarPlace"
