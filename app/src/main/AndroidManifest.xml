@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/clr_day"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:usesCleartextTraffic="true">
         <activity android:name=".StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -2,6 +2,7 @@ package com.gmail.mashaduk1996.weather.api;
 
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.models.WeatherForecast;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import io.reactivex.Observable;
 import retrofit2.Call;
@@ -51,9 +52,16 @@ public class WeatherAPI {
         @GET("weather")
         Observable<WeatherDay> getWeatherByName(
                 @Query("q") String name,
-                @Query("units") String units,
+               @Query("units") String units,
                 @Query("appid") String appid,
                 @Query("lang") String lang
+        );
+        @GET("weather")
+        Observable<WeatherDay> getWeatherByName(
+                @Query("q") String name,
+
+                @Query("appid") String appid
+
         );
     }
 
@@ -61,7 +69,8 @@ public class WeatherAPI {
 //        if (retrofit == null) {
 //            retrofit = new Retrofit.Builder()
 //                    .baseUrl(BASE_URL)
-//                    .addConverterFactory(GsonConverterFactory.create()).build();
+//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build();
+//                   // .addConverterFactory(GsonConverterFactory.create()).build();
 //        }
 //        return retrofit;
 //    }

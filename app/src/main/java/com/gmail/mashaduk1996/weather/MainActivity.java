@@ -34,6 +34,7 @@ import com.gmail.mashaduk1996.weather.ui.IconsConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         imageView = findViewById(R.id.imageView);
         Retrofit retrofit = RetrofitClient.getInstance();
+        // api = WeatherAPI.getClient().create(WeatherAPI.ApiInterface.class);
         api = retrofit.create(WeatherAPI.ApiInterface.class);
         temp = findViewById(R.id.textView);
         city = findViewById(R.id.cityTextView);
@@ -177,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             lng = Geolocation.imHere.getLongitude();
 
             final String key = WeatherAPI.KEY;
+            //      Observable<WeatherDay> weatherCord = api.getWeather(lat, lng, units, key, lang);
             Observable<WeatherDay> weatherCord = api.getWeather(lat, lng, units, key, lang);
             weatherCord.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<WeatherDay>() {
                 @Override
@@ -226,6 +229,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             Observable<WeatherDay> weatherDayObservable = api.getWeatherByName(name, units, key, lang);
+            //    Observable<WeatherDay> weatherDayObservable = api.getWeatherByName(name, key);
+
             weatherDayObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<WeatherDay>() {
                 @Override
                 public void onSubscribe(Disposable d) {
@@ -238,11 +243,13 @@ public class MainActivity extends AppCompatActivity {
                         progressLayout.setVisibility(View.GONE);
                     loadData(weatherDay);
                     if (constraintLayout.getVisibility() == View.GONE) {
-                        constraintLayout.setVisibility(View.VISIBLE);}
-                        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag("mainFragment");
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.constraint_layout, mainFragment);
-                        transaction.commit();
+                        constraintLayout.setVisibility(View.VISIBLE);
+                    }
+
+//                        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag("mainFragment");
+//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//                        transaction.replace(R.id.constraint_layout, Objects.requireNonNull(mainFragment));
+//                        transaction.commit();
 
                 }
 
