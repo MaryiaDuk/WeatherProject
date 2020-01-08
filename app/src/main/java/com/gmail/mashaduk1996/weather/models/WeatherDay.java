@@ -80,6 +80,8 @@ public class WeatherDay {
         return city;
     }
 
+    
+
     public Calendar getSunset() {
         Calendar day = Calendar.getInstance();
         day.setTimeInMillis(sys.sunset * 1000);
@@ -154,5 +156,7 @@ public class WeatherDay {
         String description;
         String icon;
     }
-    public class ID{}
+    public class ID{
+        long id;
+    }
 }
