@@ -21,16 +21,16 @@
         <item>Russian</item>
     </string-array>
     <string-array name="langNum">
-        <item>eng</item>
-        <item>ru</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
     <string-array name="tempr">
         <item>Цельсий</item>
         <item>Фаренгейт</item>
     </string-array>
     <string-array name="TempNum">
-        <item>metric</item>
-        <item>imperial</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string name="fitstrun_text">Похоже это первый запуск приложения!\n

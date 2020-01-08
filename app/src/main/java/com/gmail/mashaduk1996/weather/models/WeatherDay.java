@@ -18,6 +18,8 @@ public class WeatherDay {
     private long timestamp;
     @SerializedName("sys")
     private WeatherSys sys;
+    @SerializedName("id")
+    private ID id;
 
     public WeatherDay(WeatherTemp temp, List<WeatherDescription> descriptions, WeatherSys sys) {
         this.temp = temp;
@@ -129,7 +131,7 @@ public class WeatherDay {
     }
 
     public static class Wind {
-        Double speed;
+        Double speed =0.0;
         Double deg=0.0;
 
     }
@@ -152,4 +154,5 @@ public class WeatherDay {
         String description;
         String icon;
     }
+    public class ID{}
 }

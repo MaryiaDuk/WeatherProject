@@ -45,8 +45,8 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    final String SAVED_TEXT = "saved_text";
     private String lang, place;
+    int lang1;
     private TextView temp, city, pressure, descr, date, humidity, wind;
     private ImageView imageView;
     private WeatherAPI.ApiInterface api;
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         imageView = findViewById(R.id.imageView);
         Retrofit retrofit = RetrofitClient.getInstance();
-        // api = WeatherAPI.getClient().create(WeatherAPI.ApiInterface.class);
         api = retrofit.create(WeatherAPI.ApiInterface.class);
         temp = findViewById(R.id.textView);
         city = findViewById(R.id.cityTextView);
@@ -107,8 +106,13 @@ public class MainActivity extends AppCompatActivity {
         //чтение файла настроек
         //Layout в зависимости от положения Toolbar
         boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
-        lang = sp.getString("lang", "eng");
-        units = sp.getString("temperature", "metric");
+
+        lang = sp.getString("lang", "1");
+        if(lang.equals("1")) lang="eng";
+        if(lang.equals("2")) lang="ru";
+        units = sp.getString("temperature", "1");
+        if(units.equals("1")) units="metric";
+        else units="imperial";
         if (toolbarPlace) setContentView(R.layout.activity_main);
         else setContentView(R.layout.activity_main2);
         //Разрешение на доступ к геолокации
@@ -275,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void loadData(WeatherDay data) {
-        String name = data.getCity();
+        String name = data.getCity().trim();
         city.setText(enter.showCity(name) + ", " + data.getCountry());
         String url = data.getIconUrl();
         icons.setIcon(url, imageView);
