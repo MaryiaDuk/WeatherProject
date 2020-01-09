@@ -18,8 +18,7 @@ public class WeatherDay {
     private long timestamp;
     @SerializedName("sys")
     private WeatherSys sys;
-    @SerializedName("id")
-    private ID id;
+
 
     public WeatherDay(WeatherTemp temp, List<WeatherDescription> descriptions, WeatherSys sys) {
         this.temp = temp;
@@ -80,7 +79,7 @@ public class WeatherDay {
         return city;
     }
 
-    
+
 
     public Calendar getSunset() {
         Calendar day = Calendar.getInstance();

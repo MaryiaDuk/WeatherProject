@@ -29,11 +29,13 @@ import com.gmail.mashaduk1996.weather.fragments.MainFragment;
 import com.gmail.mashaduk1996.weather.geolocation.Geolocation;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.ui.Backgrounds;
+import com.gmail.mashaduk1996.weather.ui.CountryConverter;
 import com.gmail.mashaduk1996.weather.ui.EnterCityCirilic;
 import com.gmail.mashaduk1996.weather.ui.IconsConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 import io.reactivex.Observable;
@@ -108,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
         boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
 
         lang = sp.getString("lang", "1");
-        if(lang.equals("1")) lang="eng";
-        if(lang.equals("2")) lang="ru";
+        if (lang.equals("1")) lang = "eng";
+        if (lang.equals("2")) lang = "ru";
         units = sp.getString("temperature", "1");
-        if(units.equals("1")) units="metric";
-        else units="imperial";
+        if (units.equals("1")) units = "metric";
+        else units = "imperial";
         if (toolbarPlace) setContentView(R.layout.activity_main);
         else setContentView(R.layout.activity_main2);
         //Разрешение на доступ к геолокации
@@ -280,7 +282,13 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void loadData(WeatherDay data) {
         String name = data.getCity().trim();
-        city.setText(enter.showCity(name) + ", " + data.getCountry());
+        CountryConverter countryConverter = new CountryConverter();
+        //   city.setText(enter.showCity(name) + ", " + countryConverter.showFullName(data.getCountry()));
+        // city.setText(enter.showCity(name) + ", " + data.getCountry());
+        //Locale locale = new Locale(data.getCountry().toLowerCase());
+
+        Locale locale = new Locale("", data.getCountry());
+        city.setText(enter.showCity(name) + ", " + locale.getDisplayCountry(new Locale("ru")));
         String url = data.getIconUrl();
         icons.setIcon(url, imageView);
         temp.setText(data.getTempWithDegree());

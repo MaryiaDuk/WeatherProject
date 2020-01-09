@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public class WeatherAPI {
     public static String KEY = "b083cab9f857f94bcba8b63de3f71b37";
-    public static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    public static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static Retrofit retrofit = null;
 
     public interface ApiInterface {
