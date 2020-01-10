@@ -155,7 +155,4 @@ public class WeatherDay {
         String description;
         String icon;
     }
-    public class ID{
-        long id;
-    }
 }

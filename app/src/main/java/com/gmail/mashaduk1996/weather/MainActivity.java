@@ -2,6 +2,7 @@ package com.gmail.mashaduk1996.weather;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -11,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,32 +23,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gmail.mashaduk1996.weather.MVP.MainContract;
+import com.gmail.mashaduk1996.weather.MVP.MainPresenter;
 import com.gmail.mashaduk1996.weather.api.RetrofitClient;
 import com.gmail.mashaduk1996.weather.api.WeatherAPI;
-import com.gmail.mashaduk1996.weather.fragments.MainFragment;
 import com.gmail.mashaduk1996.weather.geolocation.Geolocation;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.ui.Backgrounds;
-import com.gmail.mashaduk1996.weather.ui.CountryConverter;
 import com.gmail.mashaduk1996.weather.ui.EnterCityCirilic;
 import com.gmail.mashaduk1996.weather.ui.IconsConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Objects;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private String lang, place;
-    int lang1;
     private TextView temp, city, pressure, descr, date, humidity, wind;
     private ImageView imageView;
     private WeatherAPI.ApiInterface api;
@@ -68,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
     private FragmentManager fragmentManager;
+    private Locale russian;
+    private MainContract.Presenter mainPresenter;
+    private ProgressDialog progressDialog;
 
     //Инициализация
     @SuppressLint("SimpleDateFormat")
@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
         progressLayout = findViewById(R.id.progressLayout);
         settingsButton = findViewById(R.id.settingsButton);
         errorLayout = findViewById(R.id.layout_error);
-
+        russian = new Locale("ru");
+        mainPresenter = new MainPresenter(this);
     }
 
 
@@ -105,16 +106,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sp = PreferenceManager.getDefaultSharedPreferences(App.context);
-        //чтение файла настроек
         //Layout в зависимости от положения Toolbar
         boolean toolbarPlace = sp.getBoolean("toolbarPlace", false);
-
-        lang = sp.getString("lang", "1");
-        if (lang.equals("1")) lang = "eng";
-        if (lang.equals("2")) lang = "ru";
-        units = sp.getString("temperature", "1");
-        if (units.equals("1")) units = "metric";
-        else units = "imperial";
         if (toolbarPlace) setContentView(R.layout.activity_main);
         else setContentView(R.layout.activity_main2);
         //Разрешение на доступ к геолокации
@@ -127,21 +120,19 @@ public class MainActivity extends AppCompatActivity {
         }
         //инициализация
         init();
-        name = sp.getString("defaultCity", "");
-        //   name = loadCity();
-        date.setText(dateFormat.format(Calendar.getInstance().getTime()));
         setSupportActionBar(toolbar);
-        getWeatherByName();
+        mainPresenter.onActivityCreate();
+
         addCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWeatherByName();
+                mainPresenter.findButtonWasClicked();
             }
         });
         locbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWeatherByCoord(city);
+                mainPresenter.onGeoButtonWasClicked();
             }
         });
 
@@ -161,134 +152,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Geolocation.SetUpLocationListener(this);
-                }
+        if (requestCode == MY_PERMISSIONS_REQUEST_LOCATION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Geolocation.SetUpLocationListener(this);
+            }
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        name = enterCity.getText().toString().trim();
-    }
-
-    public void getWeatherByCoord(View v) {
-        Double lat;
-        Double lng;
-        try {
-            //чтение координат
-            lat = Geolocation.imHere.getLatitude();
-            lng = Geolocation.imHere.getLongitude();
-
-            final String key = WeatherAPI.KEY;
-            //      Observable<WeatherDay> weatherCord = api.getWeather(lat, lng, units, key, lang);
-            Observable<WeatherDay> weatherCord = api.getWeather(lat, lng, units, key, lang);
-            weatherCord.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<WeatherDay>() {
-                @Override
-                public void onSubscribe(Disposable d) {
-                }
-
-                @Override
-                public void onNext(WeatherDay weatherDay) {
-                    if (progressLayout.getVisibility() == View.VISIBLE)
-                        progressLayout.setVisibility(View.GONE);
-                    loadData(weatherDay);
-                    if (constraintLayout.getVisibility() == View.GONE) {
-                        constraintLayout.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    //     temp.setText("-");
-                    if (progressLayout.getVisibility() == View.VISIBLE) {
-                        progressLayout.setVisibility(View.GONE);
-                        errorLayout.setVisibility(View.VISIBLE);
-                    }
-                    Toast errorToast = Toast.makeText(getApplicationContext(), "Ошибка получения данных", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }
-
-                @Override
-                public void onComplete() {
-                }
-            });
-        } catch (NullPointerException e) {
-            Toast error = Toast.makeText(getApplicationContext(), "Отсутствует доступ к геолокации", Toast.LENGTH_SHORT);
-            error.show();
-        }
-    }
-
-    public void getWeatherByName() {
-        final String key = WeatherAPI.KEY;
-        if (enterCity.getText().length() != 0) {
-            name = enterCity.getText().toString();
-        }
-        name = enter.enterCirilicCty(name);
-        if (name.isEmpty()) {
-            Toast enterCity = Toast.makeText(getApplicationContext(), "Введите город", Toast.LENGTH_SHORT);
-            enterCity.show();
-        } else {
-
-            Observable<WeatherDay> weatherDayObservable = api.getWeatherByName(name, units, key, lang);
-            //    Observable<WeatherDay> weatherDayObservable = api.getWeatherByName(name, key);
-
-            weatherDayObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<WeatherDay>() {
-                @Override
-                public void onSubscribe(Disposable d) {
-
-                }
-
-                @Override
-                public void onNext(WeatherDay weatherDay) {
-                    if (progressLayout.getVisibility() == View.VISIBLE)
-                        progressLayout.setVisibility(View.GONE);
-                    loadData(weatherDay);
-                    if (constraintLayout.getVisibility() == View.GONE) {
-                        constraintLayout.setVisibility(View.VISIBLE);
-                    }
-
-//                        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag("mainFragment");
-//                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                        transaction.replace(R.id.constraint_layout, Objects.requireNonNull(mainFragment));
-//                        transaction.commit();
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    if (progressLayout.getVisibility() == View.VISIBLE) {
-                        progressLayout.setVisibility(View.GONE);
-                        errorLayout.setVisibility(View.VISIBLE);
-                    }
-                    Toast errorToast = Toast.makeText(getApplicationContext(), "Ошибка получения данных", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                    constraintLayout.setVisibility(ConstraintLayout.GONE);
-                    linearLayout.setBackgroundResource(R.drawable.bg_df_day);
-
-                }
-
-                @Override
-                public void onComplete() {
-                }
-            });
-        }
-    }
-
+@Override
     @SuppressLint("SetTextI18n")
-    private void loadData(WeatherDay data) {
-        String name = data.getCity().trim();
-        CountryConverter countryConverter = new CountryConverter();
-        //   city.setText(enter.showCity(name) + ", " + countryConverter.showFullName(data.getCountry()));
-        // city.setText(enter.showCity(name) + ", " + data.getCountry());
-        //Locale locale = new Locale(data.getCountry().toLowerCase());
-
+    public void loadData(WeatherDay data) {
+        if (progressLayout.getVisibility() == View.VISIBLE)
+            progressLayout.setVisibility(View.GONE);
+        if (errorLayout.getVisibility() == View.VISIBLE) {
+            errorLayout.setVisibility(View.GONE);
+            constraintLayout.setVisibility(View.VISIBLE);
+        }
         Locale locale = new Locale("", data.getCountry());
-        city.setText(enter.showCity(name) + ", " + locale.getDisplayCountry(new Locale("ru")));
+        city.setText(data.getCity() + ", " + locale.getDisplayCountry(russian));
         String url = data.getIconUrl();
         icons.setIcon(url, imageView);
         temp.setText(data.getTempWithDegree());
@@ -310,5 +191,45 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         finish();
+    }
+
+    @Override
+    public String getCity() {
+        return enterCity.getText().toString().trim();
+    }
+
+    @Override
+    public void showErrorToast(String error) {
+        Toast toast = Toast.makeText(this, error, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    @Override
+    public void showLoadingDialoge() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Weather");
+            progressDialog.setMessage("Loading...");
+        }
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideLoadingDialoge() {
+        progressDialog.hide();
+
+    }
+
+    @Override
+    public void showErrorMessage() {
+        linearLayout.setBackgroundResource(R.drawable.bg_df_day);
+        if (progressLayout.getVisibility() == View.VISIBLE) {
+            progressLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
+        if (constraintLayout.getVisibility() == View.VISIBLE) {
+            constraintLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+        }
     }
 }

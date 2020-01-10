@@ -12,7 +12,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/clr_day"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/clr_day"
         android:supportsRtl="true"
@@ -29,6 +29,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:theme="@style/SettingTheme"
             android:screenOrientation="portrait">
 
         </activity>
