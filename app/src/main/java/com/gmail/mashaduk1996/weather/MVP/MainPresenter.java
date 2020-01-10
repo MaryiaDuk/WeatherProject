@@ -72,7 +72,7 @@ public class MainPresenter implements MainContract.Presenter {
         weatherDayObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherDay>() {
             @Override
             public void onNext(WeatherDay weatherDay) {
-                mainView.loadData(weatherDay);
+                mainView.loadData(weatherDay, lang);
             }
 
             @Override
@@ -101,7 +101,7 @@ public class MainPresenter implements MainContract.Presenter {
             weatherCord.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherDay>() {
                 @Override
                 public void onNext(WeatherDay weatherDay) {
-                    mainView.loadData(weatherDay);
+                    mainView.loadData(weatherDay, lang);
                 }
 
                 @Override

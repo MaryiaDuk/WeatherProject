@@ -7,7 +7,7 @@ import com.gmail.mashaduk1996.weather.models.WeatherDay;
 
 public interface MainContract {
     interface View {
-        void loadData(WeatherDay data);
+        void loadData(WeatherDay data, String language);
 
         String getCity();
 

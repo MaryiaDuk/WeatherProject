@@ -45,27 +45,20 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private String lang, place;
     private TextView temp, city, pressure, descr, date, humidity, wind;
     private ImageView imageView;
-    private WeatherAPI.ApiInterface api;
     private Backgrounds backgrounds;
     private EditText enterCity;
-    private String name = null;
     private ImageButton addCity, locbutton, settingsButton;
     private IconsConverter icons;
-    private SharedPreferences sPref;
-    private WeatherDay data;
     private Toolbar toolbar;
     private LinearLayout linearLayout;
-    private String units;
-    private EnterCityCirilic enter;
     private SimpleDateFormat dateFormat;
     private ConstraintLayout constraintLayout, progressLayout, errorLayout;
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
     private FragmentManager fragmentManager;
-    private Locale russian;
+    private Locale russian,english;
     private MainContract.Presenter mainPresenter;
     private ProgressDialog progressDialog;
 
@@ -73,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @SuppressLint("SimpleDateFormat")
     private void init() {
         imageView = findViewById(R.id.imageView);
-        Retrofit retrofit = RetrofitClient.getInstance();
-        api = retrofit.create(WeatherAPI.ApiInterface.class);
         temp = findViewById(R.id.textView);
         city = findViewById(R.id.cityTextView);
         city.setSelected(true);
@@ -91,13 +82,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         enterCity.setCursorVisible(false);
         toolbar = findViewById(R.id.toolbar);
         linearLayout = findViewById(R.id.root_layout);
-        enter = new EnterCityCirilic();
         dateFormat = new SimpleDateFormat(pattern);
         constraintLayout = findViewById(R.id.constraint_layout);
         progressLayout = findViewById(R.id.progressLayout);
         settingsButton = findViewById(R.id.settingsButton);
         errorLayout = findViewById(R.id.layout_error);
         russian = new Locale("ru");
+        english=new Locale("en");
         mainPresenter = new MainPresenter(this);
     }
 
@@ -161,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 @Override
     @SuppressLint("SetTextI18n")
-    public void loadData(WeatherDay data) {
+    public void loadData(WeatherDay data, String language) {
         if (progressLayout.getVisibility() == View.VISIBLE)
             progressLayout.setVisibility(View.GONE);
         if (errorLayout.getVisibility() == View.VISIBLE) {
@@ -169,7 +160,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             constraintLayout.setVisibility(View.VISIBLE);
         }
         Locale locale = new Locale("", data.getCountry());
+        if(language.equals("ru"))
         city.setText(data.getCity() + ", " + locale.getDisplayCountry(russian));
+        if(language.equals("eng")) city.setText(data.getCity() + ", " + locale.getDisplayCountry(english));
         String url = data.getIconUrl();
         icons.setIcon(url, imageView);
         temp.setText(data.getTempWithDegree());

@@ -67,12 +67,13 @@
             app:layout_constraintVertical_bias="0.075"
             app:shape_arc_cropDirection="outside"
             app:shape_arc_height="20dp"
-            app:shape_arc_position="bottom">
+            app:shape_arc_position="bottom"
+            >
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#b0292c31">
+                android:background="#B016171B">
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
