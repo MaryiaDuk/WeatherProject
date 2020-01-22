@@ -17,9 +17,11 @@
         android:roundIcon="@mipmap/clr_day"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".StartActivity"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".WeatherForecastActivity"></activity>
+        <activity
+            android:name=".StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,18 +31,16 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/SettingTheme"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/SettingTheme"></activity>
         <activity
             android:name=".SettingsActivitys"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingTheme">
-        </activity>
-        <activity android:name=".SettingsActivity"
-            android:theme="@style/SettingTheme"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/SettingTheme"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SettingTheme" />
         <activity android:name=".FirstRunActivity" />
     </application>
 

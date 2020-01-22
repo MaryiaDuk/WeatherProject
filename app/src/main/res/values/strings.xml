@@ -8,14 +8,14 @@
     <string name="units">Units</string>
     <string name="metric">Metric</string>
     <string name="imperial">Imperial</string>
-    <string name="pressure">Pressure:</string>
-    <string name="humidity">Humidity:</string>
-    <string name="wind">Wind:</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
     <string name="action_history">History</string>
     <string name="action_about">About</string>
     <string name="err_msg">Network error…</string>
     <string name="saveBtn">Save</string>
-    <string name="toolbarPlace">Расположение панели поиска</string>
+    <string name="toolbarPlace">Search bar location</string>
     <string-array name="language">
         <item>English</item>
         <item>Russian</item>
@@ -32,10 +32,19 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-
+<string name="choose_lang">Language</string>
     <string name="fitstrun_text">Похоже это первый запуск приложения!\n
         Сейчас Вы будете переправлены\n
         на страницу настроек.\n
         Спасибо за установку приложения!
     </string>
+    <string name="sunset">Sunset</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="update">Updated at:</string>
+    <string name="request_settings">Request settings</string>
+    <string name="choose_lang_summary">Click to select a language</string>
+    <string name="temp_scale">Temperature scale</string>
+    <string name="def_city">Default city</string>
+    <string name="disp_settings">Display Settings</string>
+    <string name="place_tb">Bottom search bar</string>
 </resources>

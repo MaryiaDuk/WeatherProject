@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,36 +26,26 @@ import android.widget.Toast;
 
 import com.gmail.mashaduk1996.weather.MVP.MainContract;
 import com.gmail.mashaduk1996.weather.MVP.MainPresenter;
-import com.gmail.mashaduk1996.weather.api.RetrofitClient;
-import com.gmail.mashaduk1996.weather.api.WeatherAPI;
 import com.gmail.mashaduk1996.weather.geolocation.Geolocation;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.ui.Backgrounds;
-import com.gmail.mashaduk1996.weather.ui.EnterCityCirilic;
 import com.gmail.mashaduk1996.weather.ui.IconsConverter;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private TextView temp, city, pressure, descr, date, humidity, wind;
+    private TextView temp, city, pressure, descr, date, humidity, wind, sunset, sunrise;
     private ImageView imageView;
     private Backgrounds backgrounds;
     private EditText enterCity;
     private ImageButton addCity, locbutton, settingsButton;
     private IconsConverter icons;
     private Toolbar toolbar;
-    private LinearLayout linearLayout;
+    private LinearLayout linearLayout, forecasrLayout;
     private SimpleDateFormat dateFormat;
-    private ConstraintLayout constraintLayout, progressLayout, errorLayout;
+    private ConstraintLayout constraintLayout, errorLayout;
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
     private FragmentManager fragmentManager;
@@ -84,12 +75,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         linearLayout = findViewById(R.id.root_layout);
         dateFormat = new SimpleDateFormat(pattern);
         constraintLayout = findViewById(R.id.constraint_layout);
-        progressLayout = findViewById(R.id.progressLayout);
         settingsButton = findViewById(R.id.settingsButton);
         errorLayout = findViewById(R.id.layout_error);
         russian = new Locale("ru");
         english=new Locale("en");
         mainPresenter = new MainPresenter(this);
+        sunrise=findViewById(R.id.sunrise);
+        sunset=findViewById(R.id.sunset);
+        forecasrLayout=findViewById(R.id.weatherLayout);
     }
 
 
@@ -139,6 +132,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 startSettings();
             }
         });
+        forecasrLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent start = new Intent(MainActivity.this, WeatherForecastActivity.class);
+                start.putExtra("city", city.getText());
+                startActivity(start);
+            }
+        });
     }
 
     @Override
@@ -153,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 @Override
     @SuppressLint("SetTextI18n")
     public void loadData(WeatherDay data, String language) {
-        if (progressLayout.getVisibility() == View.VISIBLE)
-            progressLayout.setVisibility(View.GONE);
         if (errorLayout.getVisibility() == View.VISIBLE) {
             errorLayout.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.VISIBLE);
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         city.setText(data.getCity() + ", " + locale.getDisplayCountry(russian));
         if(language.equals("eng")) city.setText(data.getCity() + ", " + locale.getDisplayCountry(english));
         String url = data.getIconUrl();
-        icons.setIcon(url, imageView);
+        //icons.setIcon(url, imageView);
         temp.setText(data.getTempWithDegree());
         pressure.setText(data.getPressureMmHg(data.getPressure()) + " мм рт ст");
         descr.setText(data.getDiscr().toUpperCase());
@@ -173,6 +172,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         date.setText(dateFormat.format(data.getDate().getTime()));
         wind.setText(data.getWind() + " m/s" + " " + data.deg(data.getDeg()));
         backgrounds.set(url, linearLayout);
+        sunset.setText(data.getFormatSunset());
+        sunrise.setText(data.getFormatSunrise());
+Log.d("WeatherAAA", data.getTemp());
+
     }
 
     public void startSettings() {
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showLoadingDialoge() {
+    public void showLoadingDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Weather");
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void hideLoadingDialoge() {
+    public void hideLoadingDialog() {
         progressDialog.hide();
 
     }
@@ -216,10 +219,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showErrorMessage() {
         linearLayout.setBackgroundResource(R.drawable.bg_df_day);
-        if (progressLayout.getVisibility() == View.VISIBLE) {
-            progressLayout.setVisibility(View.GONE);
-            errorLayout.setVisibility(View.VISIBLE);
-        }
         if (constraintLayout.getVisibility() == View.VISIBLE) {
             constraintLayout.setVisibility(View.GONE);
             errorLayout.setVisibility(View.VISIBLE);

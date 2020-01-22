@@ -2,12 +2,14 @@ package com.gmail.mashaduk1996.weather.MVP;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.gmail.mashaduk1996.weather.App;
 import com.gmail.mashaduk1996.weather.api.RetrofitClient;
 import com.gmail.mashaduk1996.weather.api.WeatherAPI;
 import com.gmail.mashaduk1996.weather.geolocation.Geolocation;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
+import com.gmail.mashaduk1996.weather.models.WeatherForecast;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -47,7 +49,7 @@ public class MainPresenter implements MainContract.Presenter {
     public void findButtonWasClicked() {
         city = mainView.getCity();
         if (city.length() != 0) {
-            mainView.showLoadingDialoge();
+            mainView.showLoadingDialog();
             getWeatherByName();
         }
         if (city.isEmpty()) mainView.showErrorToast("Введите город");
@@ -55,13 +57,13 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onActivityCreate() {
-        mainView.showLoadingDialoge();
+        mainView.showLoadingDialog();
         getWeatherByName();
     }
 
     @Override
     public void onGeoButtonWasClicked() {
-        mainView.showLoadingDialoge();
+        mainView.showLoadingDialog();
         getWeatherByCord();
     }
 
@@ -77,13 +79,32 @@ public class MainPresenter implements MainContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
-                mainView.hideLoadingDialoge();
+                mainView.hideLoadingDialog();
                 mainView.showErrorMessage();
             }
 
             @Override
             public void onComplete() {
-                mainView.hideLoadingDialoge();
+                mainView.hideLoadingDialog();
+            }
+        });
+        Observable<WeatherForecast> weatherForecastObservable = api.getForecast(city, units, key, lang);
+        weatherForecastObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherForecast>() {
+            @Override
+            public void onNext(WeatherForecast weatherForecast) {
+              //  Log.d("WeatherAAA", weatherForecast.getItems().get(0).getCity());
+                Log.d("WeatherAAA", "onNext");
+                Log.d("WeatherAAA", weatherForecast.getItems().get(0).getPressure().toString());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }
@@ -111,7 +132,7 @@ public class MainPresenter implements MainContract.Presenter {
 
                 @Override
                 public void onComplete() {
-                    mainView.hideLoadingDialoge();
+                    mainView.hideLoadingDialog();
                 }
             });
         } catch (NullPointerException e) {

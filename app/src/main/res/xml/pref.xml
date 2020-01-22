@@ -2,32 +2,33 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Настройки запроса">
+    <PreferenceCategory android:title="@string/request_settings">
         <ListPreference
             android:defaultValue="2"
             android:entries="@array/language"
             android:entryValues="@array/langNum"
             android:key="lang"
-            android:summary="Нажмите для выбора языка"
-            android:title="Выберите язык" />
+            android:summary="@string/choose_lang_summary"
+            android:title="@string/choose_lang" />
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/tempr"
             android:entryValues="@array/TempNum"
             android:key="temperature"
-            android:title="Выберите температурную шкалу" />
+            android:title="@string/temp_scale" />
         <EditTextPreference
             android:defaultValue="Москва"
             android:key="defaultCity"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Город по умолчанию" />
+            android:title="@string/def_city" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Настройки отображения">
+    <PreferenceCategory android:title="@string/disp_settings">
         <SwitchPreference
             android:defaultValue="false"
             android:key="toolbarPlace"
-            android:title="Панель поиска снизу" />
+            android:title="@string/place_tb" />
+
     </PreferenceCategory>
 </PreferenceScreen>

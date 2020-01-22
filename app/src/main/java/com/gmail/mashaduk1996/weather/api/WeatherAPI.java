@@ -63,6 +63,13 @@ public class WeatherAPI {
                 @Query("appid") String appid
 
         );
+        @GET("forecast")
+        Observable<WeatherForecast> getForecast(
+                @Query("q") String name,
+                @Query("units") String units,
+                @Query("appid") String appid,
+                @Query("lang") String lang
+        );
     }
 
 //    public static Retrofit getClient() {

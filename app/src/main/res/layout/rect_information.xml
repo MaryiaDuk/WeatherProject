@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+           style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/sunrise"
+                android:tint="#FFFFFF" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="@string/sunrise"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/sunrise"
+                style="@style/MaxTextStyle"
+                android:text="06:40 AM" />
+        </LinearLayout>
+
+        <Space style="@style/SpaceStyleVertical" />
+
+        <LinearLayout
+            style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/sunset"
+                android:tint="#FFFFFF" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="@string/sunset" />
+
+            <TextView
+                android:id="@+id/sunset"
+                style="@style/MaxTextStyle"
+                android:text="06:40 AM" />
+        </LinearLayout>
+
+        <Space style="@style/SpaceStyleVertical" />
+
+        <LinearLayout
+           style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/wind"
+                android:tint="#FFFFFF" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="@string/wind" />
+
+            <TextView
+                android:id="@+id/wind"
+                style="@style/MaxTextStyle"
+                android:text="06:40 AM" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <LinearLayout
+            style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/pressure"
+                android:tint="#FFFFFF"
+                tools:ignore="ContentDescription" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="@string/pressure" />
+
+            <TextView
+                android:id="@+id/pressure"
+                style="@style/MaxTextStyle"
+                android:text="06:40 AM" />
+        </LinearLayout>
+
+        <Space style="@style/SpaceStyleVertical" />
+
+        <LinearLayout
+            style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/humidity"
+                android:tint="#FFFFFF"
+                tools:ignore="ContentDescription" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="@string/humidity" />
+
+            <TextView
+                android:id="@+id/humidity"
+                style="@style/MaxTextStyle"
+                android:text="06:40 AM" />
+        </LinearLayout>
+
+        <Space style="@style/SpaceStyleVertical" />
+
+        <LinearLayout
+            android:id="@+id/weatherLayout"
+            style="@style/InfoLayoutStyle">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/info"
+                android:tint="#FFFFFF" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <TextView
+                style="@style/MinTextStyle"
+                android:text="Created By" />
+
+            <TextView
+                android:id="@+id/about"
+                style="@style/MaxTextStyle"
+                android:text="AndroDocs" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

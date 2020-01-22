@@ -2,6 +2,7 @@ package com.gmail.mashaduk1996.weather.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class WeatherDay {
     }
 
     public String getTemp() {
-        return String.valueOf(temp.temp);
+        return String.valueOf(temp.temp.intValue());
     }
 
     public Double getPressure() {
@@ -91,6 +92,19 @@ public class WeatherDay {
         Calendar day = Calendar.getInstance();
         day.setTimeInMillis(sys.sunrise * 1000);
         return day;
+    }
+
+    public String getFormatSunset(){
+        Calendar day=Calendar.getInstance();
+        day.setTimeInMillis(sys.sunset*1000);
+        SimpleDateFormat format = new SimpleDateFormat( "h:mm a");
+        return format.format(day.getTime());
+    }
+    public String getFormatSunrise(){
+        Calendar day=Calendar.getInstance();
+        day.setTimeInMillis(sys.sunrise*1000);
+        SimpleDateFormat format = new SimpleDateFormat( "h:mm a");
+        return format.format(day.getTime());
     }
 
     public String getIcon() {

@@ -16,18 +16,17 @@
             android:id="@+id/updateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Updated at:"
+            android:text="@string/update"
             app:layout_constraintBottom_toTopOf="@+id/circleView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
         </TextView>
 
-        <com.github.florent37.shapeofview.shapes.RoundRectView
+        <com.github.florent37.shapeofview.shapes.CircleView
             android:id="@+id/circleView"
             android:layout_width="320dp"
             android:layout_height="320dp"
-            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/cityTextView"
-                    android:layout_width="250dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -133,7 +132,7 @@
                     app:layout_constraintVertical_bias="0.562" />
 
             </android.support.constraint.ConstraintLayout>
-        </com.github.florent37.shapeofview.shapes.RoundRectView>
+        </com.github.florent37.shapeofview.shapes.CircleView>
 
         <com.github.florent37.shapeofview.shapes.RoundRectView
             android:id="@+id/roundRectView2"
@@ -144,7 +143,7 @@
             android:layout_marginEnd="8dp"
 
             android:layout_marginBottom="8dp"
-            android:elevation="4dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -156,119 +155,9 @@
             app:shape_roundRect_topLeftRadius="10dp"
             app:shape_roundRect_topRightRadius="10dp">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#b0292c31">
+           <include layout="@layout/rect_information">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.282"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/humidityTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/humidity"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.188"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/pressureTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/pressure"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.178"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/humidityTextView" />
-
-                <TextView
-                    android:id="@+id/windTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/wind"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.147"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/pressureTextView" />
-
-                <TextView
-                    android:id="@+id/humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.178"
-                    app:layout_constraintStart_toEndOf="@+id/humidityTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.281"
-                    app:layout_constraintStart_toEndOf="@+id/pressureTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.366" />
-
-                <TextView
-                    android:id="@+id/wind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/windTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.052" />
-
-
-            </android.support.constraint.ConstraintLayout>
+           </include>
 
 
         </com.github.florent37.shapeofview.shapes.RoundRectView>

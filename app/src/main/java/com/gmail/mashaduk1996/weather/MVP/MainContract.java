@@ -1,8 +1,5 @@
 package com.gmail.mashaduk1996.weather.MVP;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
 
 public interface MainContract {
@@ -15,9 +12,9 @@ public interface MainContract {
 
         void showErrorMessage();
 
-        void showLoadingDialoge();
+        void showLoadingDialog();
 
-        void hideLoadingDialoge();
+        void hideLoadingDialog();
 
     }
 

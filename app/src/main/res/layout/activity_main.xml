@@ -11,7 +11,7 @@
     tools:context=".MainActivity">
 
     <include
-        layout="@layout/contain_layout"
+        layout="@layout/contain_layout_v2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="85">
