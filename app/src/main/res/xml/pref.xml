@@ -12,6 +12,7 @@
             android:title="@string/choose_lang" />
         <ListPreference
             android:defaultValue="1"
+            android:dialogTitle="@string/choose_temp_scale"
             android:entries="@array/tempr"
             android:entryValues="@array/TempNum"
             android:key="temperature"
@@ -29,6 +30,16 @@
             android:defaultValue="false"
             android:key="toolbarPlace"
             android:title="@string/place_tb" />
-
+        <PreferenceScreen
+            android:key="SecondPrefScreen"
+            android:summary="This is a second PreferenceScreen"
+            android:title="@string/dt">
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="24-hours"
+                android:title="@string/choose_time" />
+        </PreferenceScreen>
     </PreferenceCategory>
+
+
 </PreferenceScreen>

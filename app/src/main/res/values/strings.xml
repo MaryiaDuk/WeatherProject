@@ -32,7 +32,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-<string name="choose_lang">Language</string>
+    <string name="choose_lang">Language</string>
     <string name="fitstrun_text">Похоже это первый запуск приложения!\n
         Сейчас Вы будете переправлены\n
         на страницу настроек.\n
@@ -47,4 +47,15 @@
     <string name="def_city">Default city</string>
     <string name="disp_settings">Display Settings</string>
     <string name="place_tb">Bottom search bar</string>
+    <string name="choose_temp_scale">Choose temperature scale</string>
+    <string name="choose_time">24-hour time</string>
+    <string name="dt"><![CDATA[Date &amp; Time]]></string>
+    <string-array name="dateFormatNum">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="DateFormat">
+        <item></item>
+    </string-array>
 </resources>

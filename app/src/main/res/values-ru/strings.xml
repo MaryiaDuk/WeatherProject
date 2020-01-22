@@ -25,9 +25,13 @@
     <string name="sunset">Закат</string>
     <string name="update">Обновлено в:</string>
     <string name="request_settings">Настройки запроса</string>
-    <string name="choose_lang">Выберите язык</string>
+    <string name="choose_lang">Язык</string>
     <string name="choose_lang_summary">Нажмите для выбора языка</string>
     <string name="temp_scale">"Шкала температуры "</string>
     <string name="def_city">Город по-умолчанию</string>
     <string name="disp_settings">Настройки отображения</string>
+    <string name="place_tb">Панель поиска снизу</string>
+    <string name="choose_temp_scale">Выберите шкалу</string>
+    <string name="choose_time">24-часовой формат</string>
+    <string name="dt">Дата и время</string>
 </resources>
