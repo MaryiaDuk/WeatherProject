@@ -32,12 +32,14 @@
             android:title="@string/place_tb" />
         <PreferenceScreen
             android:key="SecondPrefScreen"
-            android:summary="This is a second PreferenceScreen"
             android:title="@string/dt">
             <SwitchPreference
                 android:defaultValue="true"
                 android:key="24-hours"
                 android:title="@string/choose_time" />
+            <ListPreference
+                android:key="date"
+
         </PreferenceScreen>
     </PreferenceCategory>
 

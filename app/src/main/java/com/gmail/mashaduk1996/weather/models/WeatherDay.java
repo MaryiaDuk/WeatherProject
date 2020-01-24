@@ -106,7 +106,19 @@ public class WeatherDay {
         SimpleDateFormat format = new SimpleDateFormat( "h:mm a");
         return format.format(day.getTime());
     }
+    public String get24FormatSunset(){
+        Calendar day=Calendar.getInstance();
+        day.setTimeInMillis(sys.sunset*1000);
+        SimpleDateFormat format = new SimpleDateFormat( "hh:mm");
+        return format.format(day.getTime());
+    }
 
+    public String get24FormatSunrise(){
+        Calendar day=Calendar.getInstance();
+        day.setTimeInMillis(sys.sunrise*1000);
+        SimpleDateFormat format = new SimpleDateFormat( "hh:mm");
+        return format.format(day.getTime());
+    }
     public String getIcon() {
         return descriptions.get(0).icon;
     }

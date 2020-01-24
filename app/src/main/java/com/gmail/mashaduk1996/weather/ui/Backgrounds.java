@@ -15,50 +15,32 @@ public class Backgrounds {
                 layout.setBackgroundResource(R.drawable.clear_night_bg);
                 break;
             case "http://openweathermap.org/img/w/02d.png":
-                layout.setBackgroundResource(R.drawable.cloudy);
-                break;
-            case "http://openweathermap.org/img/w/02n.png":
-                layout.setBackgroundResource(R.drawable.partly_cloudy_night_bg);
-                break;
             case "http://openweathermap.org/img/w/03d.png":
                 layout.setBackgroundResource(R.drawable.cloudy);
                 break;
+            case "http://openweathermap.org/img/w/02n.png":
             case "http://openweathermap.org/img/w/03n.png":
-                layout.setBackgroundResource(R.drawable.partly_cloudy_night_bg);
-                break;
-            case "http://openweathermap.org/img/w/04d.png":
-                layout.setBackgroundResource(R.drawable.partly_cloudy_day_bg);
-                break;
             case "http://openweathermap.org/img/w/04n.png":
                 layout.setBackgroundResource(R.drawable.partly_cloudy_night_bg);
                 break;
+            case "http://openweathermap.org/img/w/04d.png":
+                layout.setBackgroundResource(R.drawable.partly_cloudy);
+                break;
             case "http://openweathermap.org/img/w/09d.png":
-                layout.setBackgroundResource(R.drawable.rain_bg);
-                break;
             case "http://openweathermap.org/img/w/09n.png":
-                layout.setBackgroundResource(R.drawable.rain_bg);
-                break;
             case "http://openweathermap.org/img/w/10d.png":
-                layout.setBackgroundResource(R.drawable.rain_bg);
-                break;
             case "http://openweathermap.org/img/w/10n.png":
                 layout.setBackgroundResource(R.drawable.rain_bg);
                 break;
             case "http://openweathermap.org/img/w/11d.png":
-                layout.setBackgroundResource(R.drawable.thunderstorm);
-                break;
             case "http://openweathermap.org/img/w/11n.png":
                 layout.setBackgroundResource(R.drawable.thunderstorm);
                 break;
             case "http://openweathermap.org/img/w/13d.png":
-                layout.setBackgroundResource(R.drawable.snow);
-                break;
             case "http://openweathermap.org/img/w/13n.png":
                 layout.setBackgroundResource(R.drawable.snow);
                 break;
             case "http://openweathermap.org/img/w/50d.png":
-                layout.setBackgroundResource(R.drawable.fog);
-                break;
             case "http://openweathermap.org/img/w/50n.png":
                 layout.setBackgroundResource(R.drawable.fog);
                 break;

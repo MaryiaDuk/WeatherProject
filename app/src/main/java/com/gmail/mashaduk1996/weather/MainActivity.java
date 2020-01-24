@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
     private FragmentManager fragmentManager;
-    private Locale russian,english;
+    private Locale russian, english;
     private MainContract.Presenter mainPresenter;
     private ProgressDialog progressDialog;
 
@@ -78,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         settingsButton = findViewById(R.id.settingsButton);
         errorLayout = findViewById(R.id.layout_error);
         russian = new Locale("ru");
-        english=new Locale("en");
+        english = new Locale("en");
         mainPresenter = new MainPresenter(this);
-        sunrise=findViewById(R.id.sunrise);
-        sunset=findViewById(R.id.sunset);
-        forecasrLayout=findViewById(R.id.weatherLayout);
+        sunrise = findViewById(R.id.sunrise);
+        sunset = findViewById(R.id.sunset);
+        forecasrLayout = findViewById(R.id.weatherLayout);
     }
 
 
@@ -151,17 +151,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         }
     }
-@Override
+
+    @Override
     @SuppressLint("SetTextI18n")
-    public void loadData(WeatherDay data, String language) {
+    public void loadData(WeatherDay data, String language, String timeFormat) {
         if (errorLayout.getVisibility() == View.VISIBLE) {
             errorLayout.setVisibility(View.GONE);
             constraintLayout.setVisibility(View.VISIBLE);
         }
         Locale locale = new Locale("", data.getCountry());
-        if(language.equals("ru"))
-        city.setText(data.getCity() + ", " + locale.getDisplayCountry(russian));
-        if(language.equals("eng")) city.setText(data.getCity() + ", " + locale.getDisplayCountry(english));
+        if (language.equals("ru"))
+            city.setText(data.getCity() + ", " + locale.getDisplayCountry(russian));
+        if (language.equals("eng"))
+            city.setText(data.getCity() + ", " + locale.getDisplayCountry(english));
         String url = data.getIconUrl();
         //icons.setIcon(url, imageView);
         temp.setText(data.getTempWithDegree());
@@ -172,9 +174,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         date.setText(dateFormat.format(data.getDate().getTime()));
         wind.setText(data.getWind() + " m/s" + " " + data.deg(data.getDeg()));
         backgrounds.set(url, linearLayout);
-        sunset.setText(data.getFormatSunset());
-        sunrise.setText(data.getFormatSunrise());
-Log.d("WeatherAAA", data.getTemp());
+        if (timeFormat.equals("h:mm a")) {
+            sunset.setText(data.getFormatSunset());
+            sunrise.setText(data.getFormatSunrise());
+        } else {
+            sunset.setText(data.get24FormatSunset());
+            sunrise.setText(data.get24FormatSunrise());
+        }
+        Log.d("WeatherAAA", data.getTemp());
 
     }
 

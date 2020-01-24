@@ -47,14 +47,14 @@
 
             <ImageButton
                 android:id="@+id/locationButton"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 android:padding="10dp"
-                android:layout_weight="1"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:src="@drawable/baseline_location_searching_white_24"
+                android:src="@drawable/ic_my_location_white_24dp"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
