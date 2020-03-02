@@ -19,7 +19,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".WeatherForecastActivity"></activity>
+        <activity android:name=".Main3Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".WeatherForecastActivity" />
         <activity
             android:name=".StartActivity"
             android:screenOrientation="portrait">
@@ -32,11 +39,11 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingTheme"></activity>
+            android:theme="@style/SettingTheme" />
         <activity
             android:name=".SettingsActivitys"
             android:screenOrientation="portrait"
-            android:theme="@style/SettingTheme"></activity>
+            android:theme="@style/SettingTheme" />
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"

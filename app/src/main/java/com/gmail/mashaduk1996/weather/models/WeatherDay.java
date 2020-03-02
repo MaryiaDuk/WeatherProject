@@ -41,10 +41,10 @@ public class WeatherDay {
         return temp.pressure;
     }
 
-    public String getPressureMmHg(Double pressure){
+    public String getPressureMmHg(Double pressure) {
         Double mmRtSt;
-        mmRtSt=pressure*100/133.3224;
-        int mm= mmRtSt.intValue();
+        mmRtSt = pressure * 100 / 133.3224;
+        int mm = mmRtSt.intValue();
         return String.valueOf(mm);
     }
 
@@ -81,7 +81,6 @@ public class WeatherDay {
     }
 
 
-
     public Calendar getSunset() {
         Calendar day = Calendar.getInstance();
         day.setTimeInMillis(sys.sunset * 1000);
@@ -94,31 +93,34 @@ public class WeatherDay {
         return day;
     }
 
-    public String getFormatSunset(){
-        Calendar day=Calendar.getInstance();
-        day.setTimeInMillis(sys.sunset*1000);
-        SimpleDateFormat format = new SimpleDateFormat( "h:mm a");
-        return format.format(day.getTime());
-    }
-    public String getFormatSunrise(){
-        Calendar day=Calendar.getInstance();
-        day.setTimeInMillis(sys.sunrise*1000);
-        SimpleDateFormat format = new SimpleDateFormat( "h:mm a");
-        return format.format(day.getTime());
-    }
-    public String get24FormatSunset(){
-        Calendar day=Calendar.getInstance();
-        day.setTimeInMillis(sys.sunset*1000);
-        SimpleDateFormat format = new SimpleDateFormat( "hh:mm");
+    public String getFormatSunset() {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(sys.sunset * 1000);
+        SimpleDateFormat format = new SimpleDateFormat("h:mm a");
         return format.format(day.getTime());
     }
 
-    public String get24FormatSunrise(){
-        Calendar day=Calendar.getInstance();
-        day.setTimeInMillis(sys.sunrise*1000);
-        SimpleDateFormat format = new SimpleDateFormat( "hh:mm");
+    public String getFormatSunrise() {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(sys.sunrise * 1000);
+        SimpleDateFormat format = new SimpleDateFormat("h:mm a");
         return format.format(day.getTime());
     }
+
+    public String get24FormatSunset() {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(sys.sunset * 1000);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(day.getTime());
+    }
+
+    public String get24FormatSunrise() {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(sys.sunrise * 1000);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(day.getTime());
+    }
+
     public String getIcon() {
         return descriptions.get(0).icon;
     }
@@ -158,9 +160,8 @@ public class WeatherDay {
     }
 
     public static class Wind {
-        Double speed =0.0;
-        Double deg=0.0;
-
+        Double speed = 0.0;
+        Double deg = 0.0;
     }
 
     public class WeatherTemp {

@@ -8,6 +8,8 @@ public class WeatherForecast {
     @SerializedName("list")
     private List<WeatherDay> items;
 
+
+
     public WeatherForecast(List<WeatherDay> items) {
         this.items = items;
     }

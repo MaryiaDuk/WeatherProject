@@ -37,8 +37,7 @@
                 android:defaultValue="true"
                 android:key="24-hours"
                 android:title="@string/choose_time" />
-            <ListPreference
-                android:key="date"
+
 
         </PreferenceScreen>
     </PreferenceCategory>

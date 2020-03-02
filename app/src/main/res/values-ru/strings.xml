@@ -34,4 +34,6 @@
     <string name="choose_temp_scale">Выберите шкалу</string>
     <string name="choose_time">24-часовой формат</string>
     <string name="dt">Дата и время</string>
+    <string name="temperature">Температура</string>
+    <string name="weatherForecast">Прогноз погоды</string>
 </resources>

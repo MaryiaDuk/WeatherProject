@@ -23,9 +23,10 @@ import retrofit2.Retrofit;
 public class WeatherForecastActivity extends AppCompatActivity {
     private RecyclerView forecastRecycler;
 
-private RecyclerViewAdapter adapter;
+    private RecyclerViewAdapter adapter;
     WeatherAPI.ApiInterface api;
     private String units, lang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,8 @@ private RecyclerViewAdapter adapter;
                 //  Log.d("WeatherAAA", weatherForecast.getItems().get(0).getCity());
                 Log.d("WeatherAAA", "onNext");
                 Log.d("WeatherAAA", weatherForecast.getItems().get(0).getPressure().toString());
-                adapter=new RecyclerViewAdapter(weatherForecast.getItems());
+
+                adapter = new RecyclerViewAdapter(weatherForecast.getItems());
                 forecastRecycler.setAdapter(adapter);
             }
 

@@ -16,6 +16,7 @@
     <string name="err_msg">Network error…</string>
     <string name="saveBtn">Save</string>
     <string name="toolbarPlace">Search bar location</string>
+    <string name="weatherForecast">Weather forecast</string>
     <string-array name="language">
         <item>English</item>
         <item>Russian</item>
@@ -50,6 +51,7 @@
     <string name="choose_temp_scale">Choose temperature scale</string>
     <string name="choose_time">24-hour time</string>
     <string name="dt"><![CDATA[Date &amp; Time]]></string>
+    <string name="temperature">Temperature</string>
     <string-array name="dateFormatNum">
         <item>1</item>
         <item>2</item>

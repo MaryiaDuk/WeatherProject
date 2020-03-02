@@ -166,12 +166,12 @@
 
             <TextView
                 style="@style/MinTextStyle"
-                android:text="Created By" />
+                android:text="Weather" />
 
             <TextView
                 android:id="@+id/about"
                 style="@style/MaxTextStyle"
-                android:text="AndroDocs" />
+                android:text="Forecast" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
