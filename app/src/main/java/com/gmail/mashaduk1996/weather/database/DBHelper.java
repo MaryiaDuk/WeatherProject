@@ -16,7 +16,7 @@ import java.io.OutputStream;
 public class DBHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "CitiesBY.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -94,6 +94,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion)
-            mNeedUpdate = true;
+            mNeedUpdate=true;
+
+
     }
 }
