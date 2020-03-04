@@ -21,25 +21,29 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gmail.mashaduk1996.weather.adapters.CityRecyclerAdapter;
 import com.gmail.mashaduk1996.weather.database.DBHelper;
+import com.gmail.mashaduk1996.weather.models.CityModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Main3Activity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
     private DBHelper mDBHelper;
     private SQLiteDatabase mDb;
     SearchView searchView;
     TextView textView;
     Toolbar toolbar;
     Menu menu;
-    ArrayList<String> list;
+    ArrayList<CityModel> list;
     RecyclerView recyclerView;
-CityRecyclerAdapter adapter;
+    CityRecyclerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,20 +61,23 @@ CityRecyclerAdapter adapter;
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             name += cursor.getString(3) + " | ";
-            list.add(cursor.getString(3));
+
+            list.add(new CityModel(cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
             cursor.moveToNext();
         }
         cursor.close();
-        Collections.sort(list, new Comparator<String>() {
+
+        Collections.sort(list, new Comparator<CityModel>() {
             @Override
-            public int compare(String s, String t1) {
-                return s.compareTo(t1);
+            public int compare(CityModel cityO, CityModel cityT) {
+                return cityO.getName_rus().compareTo(cityT.getName_rus());
             }
         });
+
         recyclerView = findViewById(R.id.cityRecycler);
         adapter = new CityRecyclerAdapter(list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         textView.setText(name);
         textView.setText(String.valueOf(list.size()));
@@ -78,28 +85,47 @@ recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_test, menu);
         MenuItem item = menu.findItem(R.id.app_bar_search);
-        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
         searchView = (SearchView) item.getActionView();
-        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        searchView.setQueryHint("Введите город...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                //
+                searchView.clearFocus();
+                searchView.onActionViewCollapsed();
+                //  (menu.findItem(R.id.app_bar_search)).collapseActionView();
+                searchView.setIconified(true);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
 
                 return true;
             }
         });
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    Toast.makeText(App.context, "Get Focus", Toast.LENGTH_SHORT).show();
+                    textView.setText("Focus");
+                } else {
+                    textView.setText("Hello");
+                    Toast.makeText(App.context, "Lost Focus", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //  searchView.setIconified(false);
+
         return super.onCreateOptionsMenu(menu);
     }
+
 
 }
 

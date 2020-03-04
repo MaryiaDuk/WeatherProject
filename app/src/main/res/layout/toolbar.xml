@@ -9,64 +9,8 @@
         android:id="@+id/toolbar"
         android:elevation="25dp"
         style="@style/Toolbar"
-        android:background="#b0292c31"
-        android:minHeight="30sp">
+        android:background="#b0292c31">
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/enterCity"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="@string/hint"
-                android:inputType="textPersonName"
-                android:textColor="@android:color/white"
-                tools:ignore="Autofill" />
-
-            <ImageButton
-                android:id="@+id/addCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:padding="10dp"
-                android:layout_weight="1"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:src="@drawable/baseline_search_white_24"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/locationButton"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:padding="10dp"
-                android:src="@drawable/ic_my_location_white_24dp"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/settingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                app:srcCompat="@drawable/baseline_settings_white_24" />
-
-        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 </LinearLayout>

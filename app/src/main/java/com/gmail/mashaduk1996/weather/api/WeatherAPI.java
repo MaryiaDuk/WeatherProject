@@ -49,13 +49,23 @@ public class WeatherAPI {
                                           @Query("appid") String appid,
                                           @Query("lang") String lang
         );
+
         @GET("weather")
         Observable<WeatherDay> getWeatherByName(
                 @Query("q") String name,
-               @Query("units") String units,
+                @Query("units") String units,
                 @Query("appid") String appid,
                 @Query("lang") String lang
         );
+
+        @GET("weather")
+        Observable<WeatherDay> getWeatherById(
+                @Query("id") String id,
+                @Query("units") String units,
+                @Query("appid") String appid,
+                @Query("lang") String lang
+        );
+
         @GET("weather")
         Observable<WeatherDay> getWeatherByName(
                 @Query("q") String name,
@@ -63,6 +73,7 @@ public class WeatherAPI {
                 @Query("appid") String appid
 
         );
+
         @GET("forecast")
         Observable<WeatherForecast> getForecast(
                 @Query("q") String name,

@@ -6,8 +6,6 @@ public interface MainContract {
     interface View {
         void loadData(WeatherDay data, String language, String timeFormat);
 
-        String getCity();
-
         void showErrorToast(String error);
 
         void showErrorMessage();
@@ -19,7 +17,8 @@ public interface MainContract {
     }
 
     interface Presenter {
-        void findButtonWasClicked();
+
+        void findButtonWasClicked(String name);
         void onActivityCreate();
         void onGeoButtonWasClicked();
     }

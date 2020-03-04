@@ -2,12 +2,23 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/flag"
+        android:layout_margin="10dp"
+        android:layout_width="20sp"
+        android:layout_height="20sp">
+    </ImageView>
 <TextView
     android:id="@+id/cityTV"
     android:textSize="20sp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:text="city"
     android:layout_margin="8dp">
-
 </TextView>
+    </LinearLayout>
 </android.support.v7.widget.CardView>

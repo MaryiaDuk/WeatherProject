@@ -16,11 +16,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private Locale russian, english;
     private MainContract.Presenter mainPresenter;
     private ProgressDialog progressDialog;
+    private SearchView searchView;
 
     //Инициализация
     @SuppressLint("SimpleDateFormat")
@@ -67,15 +72,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         wind = findViewById(R.id.wind);
         backgrounds = new Backgrounds();
         icons = new IconsConverter();
-        enterCity = findViewById(R.id.enterCity);
-        locbutton = findViewById(R.id.locationButton);
-        addCity = findViewById(R.id.addCity);
-        enterCity.setCursorVisible(false);
+        // enterCity = findViewById(R.id.enterCity);
+
+//        enterCity.setCursorVisible(false);
         toolbar = findViewById(R.id.toolbar);
         linearLayout = findViewById(R.id.root_layout);
         dateFormat = new SimpleDateFormat(pattern);
         constraintLayout = findViewById(R.id.constraint_layout);
-        settingsButton = findViewById(R.id.settingsButton);
         errorLayout = findViewById(R.id.layout_error);
         russian = new Locale("ru");
         english = new Locale("en");
@@ -107,31 +110,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setSupportActionBar(toolbar);
         mainPresenter.onActivityCreate();
 
-        addCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainPresenter.findButtonWasClicked();
-            }
-        });
-        locbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainPresenter.onGeoButtonWasClicked();
-            }
-        });
 
-        enterCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                enterCity.setCursorVisible(true);
-            }
-        });
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSettings();
-            }
-        });
+
+
         forecasrLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,10 +177,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         finish();
     }
 
-    @Override
-    public String getCity() {
-        return enterCity.getText().toString().trim();
-    }
 
     @Override
     public void showErrorToast(String error) {
@@ -230,5 +207,51 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             constraintLayout.setVisibility(View.GONE);
             errorLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_city);
+        MenuItem settingsItem = menu.findItem(R.id.settings_item);
+        MenuItem locationItem = menu.findItem(R.id.location_item);
+        locationItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                mainPresenter.onGeoButtonWasClicked();
+                return false;
+            }
+        });
+        settingsItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                startSettings();
+                return false;
+            }
+        });
+
+
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Введите город...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                if (s.length() == 0 || s == null) {
+                    Toast toast = Toast.makeText(App.context, "Введите город", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                mainPresenter.findButtonWasClicked(s);
+                searchView.clearFocus();
+                searchView.onActionViewCollapsed();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }

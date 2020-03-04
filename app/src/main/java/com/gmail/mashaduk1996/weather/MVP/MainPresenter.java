@@ -26,6 +26,7 @@ public class MainPresenter implements MainContract.Presenter {
     private SharedPreferences sp;
     private String lang, units;
     private String timeFormat;
+    private String id;
 
     private void init() {
         Retrofit retrofit = RetrofitClient.getInstance();
@@ -39,8 +40,8 @@ public class MainPresenter implements MainContract.Presenter {
         if (units.equals("1")) units = "metric";
         else units = "imperial";
         city = sp.getString("defaultCity", "");
-        if (timeformatB) timeFormat="hh:mm";
-        else timeFormat="h:mm a";
+        if (timeformatB) timeFormat = "hh:mm";
+        else timeFormat = "h:mm a";
     }
 
     public MainPresenter(MainContract.View mainView) {
@@ -49,9 +50,11 @@ public class MainPresenter implements MainContract.Presenter {
         init();
     }
 
+
+
     @Override
-    public void findButtonWasClicked() {
-        city = mainView.getCity();
+    public void findButtonWasClicked(String name) {
+        city = name;
         if (city.length() != 0) {
             mainView.showLoadingDialog();
             getWeatherByName();
@@ -71,6 +74,46 @@ public class MainPresenter implements MainContract.Presenter {
         getWeatherByCord();
     }
 
+    private void getWeatherById() {
+        final String key = WeatherAPI.KEY;
+        Observable<WeatherDay> weatherDayObservable = api.getWeatherById(city, units, key, lang);
+        weatherDayObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherDay>() {
+            @Override
+            public void onNext(WeatherDay weatherDay) {
+                mainView.loadData(weatherDay, lang, timeFormat);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mainView.hideLoadingDialog();
+                mainView.showErrorMessage();
+            }
+
+            @Override
+            public void onComplete() {
+                mainView.hideLoadingDialog();
+            }
+        });
+        Observable<WeatherForecast> weatherForecastObservable = api.getForecast(city, units, key, lang);
+        weatherForecastObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherForecast>() {
+            @Override
+            public void onNext(WeatherForecast weatherForecast) {
+                //  Log.d("WeatherAAA", weatherForecast.getItems().get(0).getCity());
+                Log.d("WeatherAAA", "onNext");
+                Log.d("WeatherAAA", weatherForecast.getItems().get(0).getPressure().toString());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 
     private void getWeatherByName() {
         final String key = WeatherAPI.KEY;
