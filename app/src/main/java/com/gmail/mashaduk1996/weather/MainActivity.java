@@ -35,12 +35,14 @@ import com.gmail.mashaduk1996.weather.models.WeatherDay;
 import com.gmail.mashaduk1996.weather.ui.Backgrounds;
 import com.gmail.mashaduk1996.weather.ui.IconsConverter;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private TextView temp, city, pressure, descr, date, humidity, wind, sunset, sunrise;
+    private TextView temp, city, pressure, descr, date, humidity, wind, sunset, sunrise, updateDate;
     private ImageView imageView;
     private Backgrounds backgrounds;
     private EditText enterCity;
@@ -48,15 +50,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private IconsConverter icons;
     private Toolbar toolbar;
     private LinearLayout linearLayout, forecasrLayout;
-    private SimpleDateFormat dateFormat;
+    private SimpleDateFormat dateFormat, time;
     private ConstraintLayout constraintLayout, errorLayout;
     private SharedPreferences sp;
     private static final String pattern = "dd MMMM yyyy";
+    private static final String timePattern = "dd.MM.yyyy 'at' HH:mm";
     private FragmentManager fragmentManager;
     private Locale russian, english;
     private MainContract.Presenter mainPresenter;
     private ProgressDialog progressDialog;
     private SearchView searchView;
+    private Date currentDate;
 
     //Инициализация
     @SuppressLint("SimpleDateFormat")
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         toolbar = findViewById(R.id.toolbar);
         linearLayout = findViewById(R.id.root_layout);
         dateFormat = new SimpleDateFormat(pattern);
+        time = new SimpleDateFormat(timePattern);
         constraintLayout = findViewById(R.id.constraint_layout);
         errorLayout = findViewById(R.id.layout_error);
         russian = new Locale("ru");
@@ -86,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         sunrise = findViewById(R.id.sunrise);
         sunset = findViewById(R.id.sunset);
         forecasrLayout = findViewById(R.id.weatherLayout);
+        updateDate = findViewById(R.id.updateTV);
+        currentDate = new Date();
     }
 
 
@@ -109,8 +116,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         init();
         setSupportActionBar(toolbar);
         mainPresenter.onActivityCreate();
-
-
 
 
         forecasrLayout.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         humidity.setText(data.getHumidity());
         dateFormat.setCalendar(data.getDate());
         date.setText(dateFormat.format(data.getDate().getTime()));
+        updateDate.setText(time.format(new Date()));
         wind.setText(data.getWind() + " m/s" + " " + data.deg(data.getDeg()));
         backgrounds.set(url, linearLayout);
         if (timeFormat.equals("h:mm a")) {
