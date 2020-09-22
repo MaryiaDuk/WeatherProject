@@ -14,7 +14,7 @@ import com.gmail.mashaduk1996.weather.adapters.ViewTypes;
 import com.gmail.mashaduk1996.weather.api.RetrofitClient;
 import com.gmail.mashaduk1996.weather.api.WeatherAPI;
 import com.gmail.mashaduk1996.weather.models.WeatherForecast;
-import com.gmail.mashaduk1996.weather.ui.ItemDecoration;
+import com.gmail.mashaduk1996.weather.ui.StickHeaderItemDecoration;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +34,6 @@ public class WeatherForecastActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle arguments = getIntent().getExtras();
         String city = arguments.get("city").toString();
-
         setContentView(R.layout.activity_weather_forecast);
         final String key = WeatherAPI.KEY;
         Retrofit retrofit = RetrofitClient.getInstance();
@@ -49,7 +48,6 @@ public class WeatherForecastActivity extends AppCompatActivity {
         forecastRecycler = findViewById(R.id.recyclerView);
         forecastRecycler.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        //forecastRecycler.addItemDecoration(new ItemDecoration(30));
         forecastRecycler.setLayoutManager(layoutManager);
         Observable<WeatherForecast> weatherForecastObservable = api.getForecast(city, units, key, lang);
         weatherForecastObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new DisposableObserver<WeatherForecast>() {
@@ -58,8 +56,8 @@ public class WeatherForecastActivity extends AppCompatActivity {
                 //  Log.d("WeatherAAA", weatherForecast.getItems().get(0).getCity());
                 Log.d("WeatherAAA", "onNext");
                 Log.d("WeatherAAA", weatherForecast.getItems().get(0).getPressure().toString());
-
-                adapter = new RecyclerViewAdapter(new ViewTypes(weatherForecast.getItems()).getNewList());
+                ViewTypes vt = new ViewTypes(weatherForecast.getItems());
+                adapter = new RecyclerViewAdapter(vt.getNewList(), vt.getIndexList(vt.getNewList()));
                 forecastRecycler.setAdapter(adapter);
             }
 

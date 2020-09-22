@@ -121,6 +121,13 @@ public class WeatherDay {
         return format.format(day.getTime());
     }
 
+    public String getTime(){
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(timestamp*1000);
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+        return format.format(time.getTime());
+    }
+
     public String getIcon() {
         return descriptions.get(0).icon;
     }

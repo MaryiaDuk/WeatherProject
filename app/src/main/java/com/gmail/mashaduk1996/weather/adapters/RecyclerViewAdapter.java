@@ -4,33 +4,32 @@ import android.icu.util.Calendar;
 import android.support.annotation.NonNull;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 
-import com.bumptech.glide.Glide;
-import com.gmail.mashaduk1996.weather.App;
 import com.gmail.mashaduk1996.weather.MVP.MainContract;
 import com.gmail.mashaduk1996.weather.R;
 import com.gmail.mashaduk1996.weather.models.WeatherDay;
-import com.gmail.mashaduk1996.weather.models.WeatherForecast;
 import com.gmail.mashaduk1996.weather.ui.IconsConverter;
+import com.gmail.mashaduk1996.weather.ui.StickHeaderItemDecoration;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<WeatherDay> weatherDayList;
-    private final int TYPE_ITEM1 = 0;
-    private final int TYPE_ITEM2 = 1;
+    private ArrayList<Integer> possitions;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_CONTENT = 1;
 
-    public RecyclerViewAdapter(ArrayList<WeatherDay> weatherDayList) {
+    public RecyclerViewAdapter(ArrayList<WeatherDay> weatherDayList, ArrayList<Integer> positions) {
         this.weatherDayList = weatherDayList;
+        this.possitions = positions;
     }
 
     @NonNull
@@ -39,10 +38,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View v;
         //   View v= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_weather_forecast, viewGroup, false);
         switch(i){
-            case TYPE_ITEM1:
+            case TYPE_HEADER:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.header_item_layout, viewGroup, false);
                 break;
-            case TYPE_ITEM2:
+            case TYPE_CONTENT:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_weather, viewGroup, false);
                 break;
             default:
@@ -61,10 +60,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String time = String.format("%02d:%02d", weatherDay.getDate().get(Calendar.HOUR_OF_DAY), weatherDay.getDate().get(Calendar.MINUTE));
 
         switch (type) {
-            case TYPE_ITEM1:
+            case TYPE_HEADER:
                 viewHolder.header.setText(date);
                 break;
-            case TYPE_ITEM2:
+            case TYPE_CONTENT:
                 viewHolder.wind.setText(weatherDay.getWind());
                 viewHolder.pressure.setText(weatherDay.getPressureMmHg(weatherDayList.get(i).getPressure()));
                 viewHolder.humidity.setText(weatherDay.getHumidity());
@@ -87,8 +86,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position==3) return TYPE_ITEM1;
-        return TYPE_ITEM2;
+        for(int i =0; i<possitions.size();i++){
+            if (position==possitions.get(i))
+                return TYPE_HEADER;
+        }
+        return TYPE_CONTENT;
      //   return super.getItemViewType(position);
     }
 
