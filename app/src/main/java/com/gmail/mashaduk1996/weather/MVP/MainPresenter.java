@@ -174,7 +174,8 @@ public class MainPresenter implements MainContract.Presenter {
 
                 @Override
                 public void onError(Throwable e) {
-
+                    mainView.hideLoadingDialog();
+                    mainView.showErrorMessage();
                 }
 
                 @Override
